@@ -1,6 +1,4 @@
 import numpy
-from scipy.misc import derivative
-
 from dto.equation import Equation
 from dto.result import Result
 from methods.method import Method
@@ -28,8 +26,8 @@ class SimpleIterationsMethod(Method):
         x = (self.left + self.right) / 2
 
         # Подбор параметра lbd на основе максимума производной
-        der_left = abs(derivative(f, self.left, dx))
-        der_right = abs(derivative(f, self.right, dx))
+        der_left = abs(self.derivative(self.left))
+        der_right = abs(self.derivative(self.right))
         max_derivative = max(der_left, der_right)
         if max_derivative == 0:
             raise ValueError('Производная равна нулю на концах интервала, метод простой итерации невозможен')
@@ -39,7 +37,7 @@ class SimpleIterationsMethod(Method):
 
         # Проверка условия сходимости |phi'(x)| < 1 на отрезке
         for xi in numpy.linspace(self.left, self.right, steps):
-            phi_der = abs(derivative(phi, xi, dx))
+            phi_der = abs(1+lbd * self.equation.deriative(xi))
             if phi_der >= 1:
                 raise ValueError(f"Не выполнено условие сходимости: |phi'(x)| = {phi_der:.3f} >= 1 при x = {xi:.3f}")
 
@@ -51,8 +49,7 @@ class SimpleIterationsMethod(Method):
                 raise ValueError(f"Превышено максимальное число итераций ({MAX_ITERS}) без сходимости")
 
             x = phi(last_x)
-            if self.log:
-                print(f'{iteration}: x_prev = {last_x:.6f}, x = {x:.6f}, |x - x_prev| = {abs(x - last_x):.6f}, f(x) = {f(x):.6f}')
+           
 
             # Условие остановки
             if abs(x - last_x) <= self.epsilon and abs(f(x)) <= self.epsilon:

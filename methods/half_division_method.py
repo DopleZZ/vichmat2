@@ -22,10 +22,6 @@ class HalfDivisionMethod(Method):
             fb = f(b)
             x = (a + b) / 2
             fx = f(x)
-            if self.log:
-                print(f'{iteration}: a = {a:f}, b = {b:.3f}, x = {x:.3f}, '
-                      f'f(a) = {fa:.3f}, f(b) = {fb:.3f}, f(x)={fx}, |a-b| = {abs(a - b)}')
-
             if abs(a - b) <= epsilon and abs(fx) <= epsilon:
                 break
 

@@ -31,9 +31,7 @@ class ChordMethod(Method):
                 a = x
 
             x = a - (b - a) * f(a) / (f(b) - f(a))
-            if self.log:
-                print(f'{iteration}: a = {a:.3f}, b = {b:.3f}, x = {x:.3f}, '
-                      f'f(a) = {f(a):.3f}, f(b) = {f(b):.3f}, f(x)={f(x)}, |x_k+1 - x_k| = {abs(x - last_x)}')
+           
 
             if np.abs(f(x)) <= epsilon and abs(x - last_x) <= epsilon:
                 break
