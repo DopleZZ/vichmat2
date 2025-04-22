@@ -26,8 +26,8 @@ class SimpleIterationsMethod(Method):
         x = (self.left + self.right) / 2
 
         # Подбор параметра lbd на основе максимума производной
-        der_left = abs(self.derivative(self.left))
-        der_right = abs(self.derivative(self.right))
+        der_left = abs(self.equation.derivative(self.left))
+        der_right = abs(self.equation.derivative(self.right))
         max_derivative = max(der_left, der_right)
         if max_derivative == 0:
             raise ValueError('Производная равна нулю на концах интервала, метод простой итерации невозможен')
@@ -37,7 +37,7 @@ class SimpleIterationsMethod(Method):
 
         # Проверка условия сходимости |phi'(x)| < 1 на отрезке
         for xi in numpy.linspace(self.left, self.right, steps):
-            phi_der = abs(1+lbd * self.equation.deriative(xi))
+            phi_der = abs(1 + lbd * self.equation.derivative(xi))
             if phi_der >= 1:
                 raise ValueError(f"Не выполнено условие сходимости: |phi'(x)| = {phi_der:.3f} >= 1 при x = {xi:.3f}")
 

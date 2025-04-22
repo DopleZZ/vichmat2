@@ -18,7 +18,7 @@ class NewtonMethod(Method):
         while True:
             iteration += 1
 
-            df = self.equation.derivative(f)
+            df = self.equation.derivative(x0)
             x1 = x0 - f(x0) / df
 
             if abs(x1 - x0) < epsilon and f(x1) < epsilon:
